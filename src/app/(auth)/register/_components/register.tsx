@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Card, Typography, message } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -13,10 +13,15 @@ const { Title } = Typography;
 
 const Register = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: any) => {
+    setIsLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+      await signOut(auth);
+
       message.success("Registrasi berhasil! Silakan login.");
       router.push("/login");
     } catch (error: any) {
@@ -28,6 +33,8 @@ const Register = () => {
         message.error("Registrasi gagal. Silakan coba lagi.");
       }
       console.error("Register Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,11 +108,15 @@ const Register = () => {
                 type="primary"
                 htmlType="submit"
                 style={{ width: "100%" }}
+                disabled={isLoading}
               >
-                Register
+                {isLoading ? "Loading..." : "Register"}
               </Button>
               <div style={{ textAlign: "center", marginTop: "10px" }}>
-                Sudah punya akun? <Link href="/login">Login sekarang!</Link>
+                Sudah punya akun?{" "}
+                <Link href="/login" className="text-blue-500">
+                  Login sekarang!
+                </Link>
               </div>
             </Form.Item>
           </Form>

@@ -34,6 +34,7 @@ const Products = () => {
     setSearchTerm,
     handleDelete,
     setIsModalVisible,
+    isSubmitting,
   } = useProducts();
 
   const columns = [
@@ -144,8 +145,13 @@ const Products = () => {
             <Button key="back" onClick={() => setIsModalVisible(false)}>
               Cancel
             </Button>,
-            <Button key="submit" type="primary" onClick={() => form.submit()}>
-              Submit
+            <Button
+              key="submit"
+              type="primary"
+              onClick={() => form.submit()}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Loading" : "Submit"}
             </Button>,
           ]}
         >

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Card, Typography, message } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -13,8 +13,10 @@ const { Title } = Typography;
 
 const Login = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: any) => {
+    setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       message.success("Login berhasil!");
@@ -22,6 +24,8 @@ const Login = () => {
     } catch (error) {
       message.error("Login gagal. Periksa kembali email dan password Anda.");
       console.error("Login Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,8 +75,9 @@ const Login = () => {
                 type="primary"
                 htmlType="submit"
                 style={{ width: "100%" }}
+                disabled={isLoading}
               >
-                Log in
+                {isLoading ? "Loading..." : "Log in"}
               </Button>
             </Form.Item>
 

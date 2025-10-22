@@ -21,6 +21,7 @@ interface PaginationState {
 const useProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [pagination, setPagination] = useState<PaginationState>({
     current: 1,
     pageSize: 5,
@@ -28,7 +29,6 @@ const useProduct = () => {
   });
   const [searchTerm, setSearchTerm] = useState("");
 
-  // State untuk modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState<"create" | "edit">("create");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -81,9 +81,13 @@ const useProduct = () => {
   };
 
   const handleFormSubmit = async (values: any) => {
+    setIsSubmitting(true);
     try {
       const token = await getToken();
-      if (!token) return;
+      if (!token) {
+        setIsSubmitting(false);
+        return;
+      }
 
       const headers = { Authorization: `Bearer ${token}` };
 
@@ -105,6 +109,8 @@ const useProduct = () => {
       message.error(
         `Gagal ${modalType === "edit" ? "memperbarui" : "menambahkan"} produk.`
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -151,6 +157,7 @@ const useProduct = () => {
     setSearchTerm,
     setIsModalVisible,
     handleDelete,
+    isSubmitting,
   };
 };
 
