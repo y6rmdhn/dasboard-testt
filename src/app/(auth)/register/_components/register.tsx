@@ -40,88 +40,86 @@ const Register = () => {
 
   return (
     <PublicWrapper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#f0f2f5",
-        }}
-      >
-        <Card style={{ width: 400 }}>
-          <Title
-            level={2}
-            style={{ textAlign: "center", marginBottom: "24px" }}
+      <Card>
+        <Title level={2} className="text-center mb-6">
+          Register
+        </Title>
+        <Form name="register" onFinish={onFinish} layout="vertical">
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { type: "email", message: "Input bukan email yang valid!" },
+              { required: true, message: "Silakan masukkan Email Anda!" },
+            ]}
           >
-            Register
-          </Title>
-          <Form name="register" onFinish={onFinish}>
-            <Form.Item
-              name="email"
-              rules={[
-                { type: "email", message: "Input bukan email yang valid!" },
-                { required: true, message: "Silakan masukkan Email Anda!" },
-              ]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Email" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Silakan masukkan Password Anda!" },
-              ]}
-              hasFeedback
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item
-              name="confirm"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Silakan konfirmasi Password Anda!",
+            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              { required: true, message: "Silakan masukkan Password Anda!" },
+            ]}
+            hasFeedback
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Password"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Silakan konfirmasi Password Anda!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Password yang Anda masukkan tidak cocok!")
+                  );
                 },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("Password yang Anda masukkan tidak cocok!")
-                    );
-                  },
-                }),
-              ]}
+              }),
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Confirm Password"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item className="mb-4">
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="w-full h-10 font-semibold"
+              disabled={isLoading}
+              loading={isLoading}
             >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="Confirm Password"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: "100%" }}
-                disabled={isLoading}
-              >
-                {isLoading ? "Loading..." : "Register"}
-              </Button>
-              <div style={{ textAlign: "center", marginTop: "10px" }}>
-                Sudah punya akun?{" "}
-                <Link href="/login" className="text-blue-500">
-                  Login sekarang!
-                </Link>
-              </div>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
+              {isLoading ? "Loading..." : "Register"}
+            </Button>
+          </Form.Item>
+          <div className="text-center mt-4 pt-4 border-t border-gray-200">
+            <span className="text-gray-600">Sudah punya akun? </span>
+            <Link
+              href="/login"
+              className="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-200"
+            >
+              Login sekarang!
+            </Link>
+          </div>
+        </Form>
+      </Card>
     </PublicWrapper>
   );
 };

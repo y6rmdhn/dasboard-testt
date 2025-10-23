@@ -91,33 +91,22 @@ const Products = () => {
 
   return (
     <AuthWrapper>
-      <main style={{ padding: "2rem" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <Title level={2}>Product Management</Title>
+      <main className="p-8">
+        <div className="flex items-center justify-between mb-6">
+          <Title level={2} className="!m-0">
+            Product Management
+          </Title>
           <Button type="default" onClick={logout}>
             Logout
           </Button>
         </div>
 
-        <Space
-          style={{
-            marginBottom: 16,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="flex items-center justify-between mb-4">
           <Search
             placeholder="Cari berdasarkan judul, kategori, deskripsi..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ width: 400 }}
             allowClear
+            className="w-[400px]"
           />
           <Button
             type="primary"
@@ -126,7 +115,7 @@ const Products = () => {
           >
             Create Product
           </Button>
-        </Space>
+        </div>
 
         <Table
           columns={columns}

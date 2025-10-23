@@ -31,64 +31,64 @@ const Login = () => {
 
   return (
     <PublicWrapper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#f0f2f5",
-        }}
-      >
-        <Card style={{ width: 400 }}>
-          <Title
-            level={2}
-            style={{ textAlign: "center", marginBottom: "24px" }}
-          >
-            Login
-          </Title>
-          <Form
-            name="normal_login"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                { required: true, message: "Silakan masukkan Email Anda!" },
-              ]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Email" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Silakan masukkan Password Anda!" },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: "100%" }}
-                disabled={isLoading}
-              >
-                {isLoading ? "Loading..." : "Log in"}
-              </Button>
-            </Form.Item>
+      <Card>
+        <Title level={2} className="!text-center !mb-6">
+          Login
+        </Title>
 
-            <Form.Item style={{ textAlign: "center", marginBottom: 0 }}>
-              <Typography.Text>
-                Belum punya akun? <Link href="/register">Daftar di sini</Link>
-              </Typography.Text>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
+        <Form
+          name="normal_login"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          layout="vertical"
+        >
+          <Form.Item
+            name="email"
+            rules={[
+              { required: true, message: "Silakan masukkan Email Anda!" },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined />}
+              placeholder="Email"
+              className="py-2"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="password"
+            rules={[
+              { required: true, message: "Silakan masukkan Password Anda!" },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Password"
+              className="py-2"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="w-full h-10"
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Log in"}
+            </Button>
+          </Form.Item>
+
+          <Form.Item className="!text-center !mb-0">
+            <Typography.Text>
+              Belum punya akun?{" "}
+              <Link href="/register" className="text-blue-600 hover:underline">
+                Daftar di sini
+              </Link>
+            </Typography.Text>
+          </Form.Item>
+        </Form>
+      </Card>
     </PublicWrapper>
   );
 };

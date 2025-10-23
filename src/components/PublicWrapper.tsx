@@ -10,13 +10,11 @@ const PublicWrapper = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Jika loading selesai DAN user sudah ada (login), redirect ke halaman utama
     if (!loading && user) {
       router.replace("/products");
     }
   }, [user, loading, router]);
 
-  // Selama loading, tampilkan spinner
   if (loading) {
     return (
       <div
@@ -32,12 +30,10 @@ const PublicWrapper = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  // Jika tidak ada user (belum login), tampilkan konten halaman (form login/register)
   if (!user) {
     return <>{children}</>;
   }
 
-  // Jika ada user (dan akan di-redirect), jangan render apa-apa agar tidak ada flash content
   return null;
 };
 
